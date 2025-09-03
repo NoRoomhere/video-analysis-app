@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TikTok API Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        button {
+            background: #ff0050;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #cc0040;
+        }
+        .result {
+            background: #f0f0f0;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            white-space: pre-wrap;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 TikTok API Test</h1>
+        
+        <h3>1. Поиск видео</h3>
+        <input type="text" id="searchKeywords" placeholder="Введите ключевые слова (например: fyp)" value="fyp">
+        <button onclick="testSearch()">Поиск видео</button>
+        
+        <h3>2. Анализ профиля</h3>
+        <input type="text" id="username" placeholder="Введите username">
+        <button onclick="testUserInfo()">Получить информацию о пользователе</button>
+        
+        <h3>3. Трендовые хештеги</h3>
+        <button onclick="testTrendingHashtags()">Получить трендовые хештеги</button>
+        
+        <h3>4. Трендовая музыка</h3>
+        <button onclick="testTrendingMusic()">Получить трендовую музыку</button>
+        
+        <h3>5. Лента видео</h3>
+        <button onclick="testFeed()">Получить ленту</button>
+        
+        <h3>Результат:</h3>
+        <div id="result" class="result">Нажмите любую кнопку для тестирования API...</div>
+    </div>
+
+    <script>
+        const API_BASE = '/api/tiktok';
+        
+        function showResult(data) {
+            document.getElementById('result').textContent = JSON.stringify(data, null, 2);
+        }
+        
+        function showError(error) {
+            document.getElementById('result').textContent = 'Ошибка: ' + error;
+        }
+        
+        async function testSearch() {
+            const keywords = document.getElementById('searchKeywords').value;
+            if (!keywords) {
+                showError('Введите ключевые слова');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${API_BASE}/search?keywords=${encodeURIComponent(keywords)}&count=5`);
+                const data = await response.json();
+                showResult(data);
+            } catch (error) {
+                showError(error.message);
+            }
+        }
+        
+        async function testUserInfo() {
+            const username = document.getElementById('username').value;
+            if (!username) {
+                showError('Введите username');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${API_BASE}/user/${encodeURIComponent(username)}`);
+                const data = await response.json();
+                showResult(data);
+            } catch (error) {
+                showError(error.message);
+            }
+        }
+        
+        async function testTrendingHashtags() {
+            try {
+                const response = await fetch(`${API_BASE}/trending/hashtags`);
+                const data = await response.json();
+                showResult(data);
+            } catch (error) {
+                showError(error.message);
+            }
+        }
+        
+        async function testTrendingMusic() {
+            try {
+                const response = await fetch(`${API_BASE}/trending/music`);
+                const data = await response.json();
+                showResult(data);
+            } catch (error) {
+                showError(error.message);
+            }
+        }
+        
+        async function testFeed() {
+            try {
+                const response = await fetch(`${API_BASE}/feed?count=5`);
+                const data = await response.json();
+                showResult(data);
+            } catch (error) {
+                showError(error.message);
+            }
+        }
+    </script>
+</body>
+</html> 

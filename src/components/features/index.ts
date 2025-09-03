@@ -1,0 +1,12 @@
+export { default as Dashboard } from './Dashboard';
+export { default as VideoAnalysis } from './VideoAnalysis';
+export { default as SocialAutomation } from './SocialAutomation';
+export { default as CompetitorAnalysis } from './CompetitorAnalysis';
+export { default as TrendsNews } from './TrendsNews';
+export { default as AIChat } from './AIChat';
+export { default as Features } from './Features';
+export { default as StatsSection } from './StatsSection';
+export { default as AffiliateProgram } from './AffiliateProgram';
+export { default as SavedContentPlans } from './SavedContentPlans';
+export { default as SubscriptionPlans } from './SubscriptionPlans';
+export { default as SubscriptionManager } from './SubscriptionManager'; 
