@@ -7,18 +7,9 @@
 [build.environment]
   NODE_VERSION = "18"
   NPM_FLAGS = "--legacy-peer-deps"
+  NPM_CONFIG_PRODUCTION = "false"
 
 # API redirects
-[[redirects]]
-  from = "/api/youtube/*"
-  to = "/.netlify/functions/youtube-oauth/:splat"
-  status = 200
-
-[[redirects]]
-  from = "/api/youtube-upload/*"
-  to = "/.netlify/functions/youtube-upload/:splat"
-  status = 200
-
 [[redirects]]
   from = "/api/stripe/*"
   to = "/.netlify/functions/stripe-:splat"
@@ -43,7 +34,7 @@
     X-XSS-Protection = "1; mode=block"
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
-    Content-Security-Policy = "default-src 'self'; script-src 'self' https://js.stripe.com https://apis.google.com 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://api.stripe.com https://apis.google.com https://*.googleapis.com https://*.gstatic.com https://*.firebaseapp.com; frame-src https://js.stripe.com https://hooks.stripe.com https://*.stripe.com https://*.google.com https://*.googleusercontent.com https://*.gstatic.com https://*.firebaseapp.com https://*.googleapis.com; form-action 'self' https://hooks.stripe.com; frame-ancestors 'self'"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' https://js.stripe.com 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://api.stripe.com https://*.firebaseapp.com; frame-src https://js.stripe.com https://hooks.stripe.com https://*.stripe.com; form-action 'self' https://hooks.stripe.com; frame-ancestors 'self'"
 
 # Function headers
 [[headers]]

@@ -10,7 +10,6 @@ import {
 interface AccountInfoProps {
   accounts: {
     tiktok: { username: string; followers: string; verified: boolean };
-    youtube: { username: string; subscribers: string; verified: boolean };
     instagram: { username: string; followers: string; verified: boolean };
   };
 }
@@ -27,18 +26,6 @@ const AccountInfo: React.FC<AccountInfoProps> = ({ accounts }) => {
       borderColor: 'border-pink-200',
       icon: '🎵',
       change: '+2.3K',
-      trend: 'up'
-    },
-    {
-      name: 'YouTube',
-      username: accounts.youtube.username,
-      followers: accounts.youtube.subscribers,
-      verified: accounts.youtube.verified,
-      color: '#FF0000',
-      bgColor: 'bg-red-50',
-      borderColor: 'border-red-200',
-      icon: '📺',
-      change: '+1.8K',
       trend: 'up'
     },
     {

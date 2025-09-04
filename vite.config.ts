@@ -10,6 +10,21 @@ export default defineConfig({
   },
   build: {
     outDir: 'dist',
-    sourcemap: true
+    sourcemap: false,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom'],
+          stripe: ['@stripe/stripe-js']
+        }
+      },
+      external: ['firebase']
+    }
+  },
+  define: {
+    global: 'globalThis'
+  },
+  optimizeDeps: {
+    exclude: ['firebase']
   }
 });

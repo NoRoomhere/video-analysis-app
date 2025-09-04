@@ -118,7 +118,7 @@ const SavedContentPlans: React.FC = () => {
     if (!file) return;
 
     const reader = new FileReader();
-    reader.onload = (e) => {
+    reader.onload = (e: ProgressEvent<FileReader>) => {
       const content = e.target?.result as string;
       const success = contentPlanStorage.importPlans(content);
       if (success) {
@@ -148,8 +148,6 @@ const SavedContentPlans: React.FC = () => {
           return '🎵';
         case 'instagram':
           return '📷';
-        case 'youtube':
-          return '📺';
         default:
           return '📱';
       }
@@ -236,7 +234,7 @@ const SavedContentPlans: React.FC = () => {
                 type="text"
                 placeholder={t('savedPlans.searchPlaceholder')}
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value)}
                 className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
               />
             </div>
@@ -264,12 +262,12 @@ const SavedContentPlans: React.FC = () => {
                       {t('savedPlans.platforms')}
                     </label>
                     <div className="space-y-2">
-                      {['TikTok', 'Instagram', 'YouTube'].map(platform => (
+                      {['TikTok', 'Instagram'].map(platform => (
                         <label key={platform} className="flex items-center">
                           <input
                             type="checkbox"
                             checked={filters.platforms?.includes(platform) || false}
-                            onChange={(e) => {
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                               const current = filters.platforms || [];
                               const updated = e.target.checked
                                 ? [...current, platform]
@@ -292,7 +290,7 @@ const SavedContentPlans: React.FC = () => {
                         <input
                           type="checkbox"
                           checked={filters.isFavorite === true}
-                          onChange={(e) => setFilters({ ...filters, isFavorite: e.target.checked ? true : undefined })}
+                          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFilters({ ...filters, isFavorite: e.target.checked ? true : undefined })}
                           className="mr-2"
                         />
                         {t('savedPlans.onlyFavorites')}
@@ -339,7 +337,7 @@ const SavedContentPlans: React.FC = () => {
                       </p>
                     </div>
                     <button
-                      onClick={(e) => {
+                      onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
                         e.stopPropagation();
                         handleToggleFavorite(plan.id);
                       }}
@@ -369,7 +367,7 @@ const SavedContentPlans: React.FC = () => {
 
                   <div className="flex items-center gap-2">
                     <button
-                      onClick={(e) => {
+                      onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
                         e.stopPropagation();
                         handleCopyPlan(plan);
                       }}
@@ -388,7 +386,7 @@ const SavedContentPlans: React.FC = () => {
                       )}
                     </button>
                     <button
-                      onClick={(e) => {
+                      onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
                         e.stopPropagation();
                         handleDeletePlan(plan.id);
                       }}
@@ -435,7 +433,7 @@ const SavedContentPlans: React.FC = () => {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
               className="bg-white rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto"
-              onClick={(e) => e.stopPropagation()}
+              onClick={(e: React.MouseEvent<HTMLDivElement>) => e.stopPropagation()}
             >
               <div className="p-6">
                 <div className="flex items-center justify-between mb-6">

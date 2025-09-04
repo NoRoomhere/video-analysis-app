@@ -64,8 +64,7 @@ const AIChat: React.FC = () => {
       type: 'multiple',
       options: [
         t('aiAssistant.options.tiktok'),
-        t('aiAssistant.options.instagram'),
-        t('aiAssistant.options.youtube')
+        t('aiAssistant.options.instagram')
       ],
       required: true,
       category: 'platform'

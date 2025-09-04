@@ -1,6 +1,8 @@
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+import Stripe from 'stripe';
 
-exports.handler = async (event, context) => {
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+
+export const handler = async (event, context) => {
   const headers = {
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Headers': 'Content-Type, Authorization',

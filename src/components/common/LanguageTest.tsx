@@ -34,7 +34,8 @@ const LanguageTest: React.FC = () => {
         <p><strong>Мои планы:</strong> {t('savedPlans.title')}</p>
         <p><strong>Анализ видео:</strong> {t('videoAnalysis.title')}</p>
         <p><strong>Dashboard:</strong> {t('dashboard.title')}</p>
-        <p><strong>YouTube:</strong> {t('youtube.title')}</p>
+        <p><strong>TikTok:</strong> {t('tiktok.title')}</p>
+        <p><strong>Instagram:</strong> {t('instagram.title')}</p>
       </div>
     </div>
   );

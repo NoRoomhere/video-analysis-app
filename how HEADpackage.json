@@ -1,0 +1,4 @@
+[33md610b93[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m chore: upgrade typescript to v5 for bundler moduleResolution
+[33m85030ec[m updated the app for the deploy
+[33m1b20ee3[m   Summary: Move files to root directory for Netlify deployment
+[33md76157a[m    Fix netlify.toml syntax error in Content-Security-Policy

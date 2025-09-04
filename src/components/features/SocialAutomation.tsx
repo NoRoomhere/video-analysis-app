@@ -23,7 +23,6 @@ const SocialAutomation = () => {
   const platforms = [
     { id: 'tiktok', name: 'TikTok', color: 'from-pink-500 to-red-500', icon: '🎵' },
     { id: 'instagram', name: 'Instagram', color: 'from-purple-500 to-pink-500', icon: '📸' },
-    { id: 'youtube', name: 'YouTube', color: 'from-red-500 to-red-600', icon: '📺' },
   ];
 
   const scheduledPosts = [
@@ -39,7 +38,7 @@ const SocialAutomation = () => {
     {
       id: 2,
       content: 'Top 5 marketing trends for 2024 📈',
-      platforms: ['Instagram', 'YouTube'],
+      platforms: ['Instagram'],
       scheduledTime: '2024-01-16 12:00',
       status: 'posted',
       hashtags: ['#marketing', '#trends', '#2024', '#digital'],
@@ -270,8 +269,8 @@ const SocialAutomation = () => {
                 </div>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-2">
-                    <span className="text-2xl">📺</span>
-                    <span className="text-sm text-gray-600">{t('socialAutomation.youtube')}</span>
+                    <span className="text-2xl">📷</span>
+                    <span className="text-sm text-gray-600">{t('socialAutomation.instagram')}</span>
                   </div>
                   <span className="text-sm font-medium text-gray-900">2-4 PM</span>
                 </div>

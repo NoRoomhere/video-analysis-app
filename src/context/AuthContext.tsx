@@ -15,7 +15,6 @@ interface User {
   avatar: string;
   accounts: {
     tiktok: { username: string; followers: string; verified: boolean };
-    youtube: { username: string; subscribers: string; verified: boolean };
     instagram: { username: string; followers: string; verified: boolean };
   };
 }
@@ -56,7 +55,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           avatar: firebaseUser.photoURL || 'https://ui-avatars.com/api/?name=' + (firebaseUser.displayName || firebaseUser.email?.split('@')[0] || 'User'),
           accounts: {
             tiktok: { username: 'tiktok_user', followers: '10K', verified: true },
-            youtube: { username: 'youtube_user', subscribers: '5K', verified: false },
             instagram: { username: 'insta_user', followers: '8K', verified: true },
           },
         });

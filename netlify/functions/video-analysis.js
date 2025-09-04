@@ -1,6 +1,5 @@
 import ffmpegPath from 'ffmpeg-static';
 import ffmpeg from 'fluent-ffmpeg';
-import multer from 'multer';
 import { v4 as uuidv4 } from 'uuid';
 import NodeCache from 'node-cache';
 import { OpenAI } from 'openai';
@@ -8,7 +7,6 @@ import fs from 'fs';
 import path from 'path';
 
 const cache = new NodeCache({ stdTTL: 3600 });
-const upload = multer({ dest: '/tmp' });
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 // --- Вспомогательные функции ---
@@ -115,23 +113,67 @@ async function analyzeFullVideoWithOpenAI(keyframes, jobId) {
 
 // --- Netlify handler ---
 export async function handler(event, context) {
+  // Enable CORS
+  const headers = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS'
+  };
+
+  // Handle preflight requests
+  if (event.httpMethod === 'OPTIONS') {
+    return {
+      statusCode: 200,
+      headers,
+      body: ''
+    };
+  }
+
   if (event.httpMethod === 'POST') {
     let videoPath;
-    if (event.filePath) {
-      videoPath = event.filePath;
-    } else {
-      // fallback: старый способ (на случай прямого вызова)
-      let body = event.body;
-      let isBase64 = event.isBase64Encoded;
-      let buffer = isBase64 ? Buffer.from(body, 'base64') : Buffer.from(body);
+    
+    // Handle file upload from form data
+    if (event.body && event.isBase64Encoded) {
+      const buffer = Buffer.from(event.body, 'base64');
       videoPath = `/tmp/video_${Date.now()}.mp4`;
       fs.writeFileSync(videoPath, buffer);
+    } else if (event.body) {
+      // Handle JSON body with base64 video data
+      try {
+        const body = JSON.parse(event.body);
+        if (body.videoData) {
+          const buffer = Buffer.from(body.videoData, 'base64');
+          videoPath = `/tmp/video_${Date.now()}.mp4`;
+          fs.writeFileSync(videoPath, buffer);
+        } else {
+          return {
+            statusCode: 400,
+            headers,
+            body: JSON.stringify({ error: 'No video data provided' })
+          };
+        }
+      } catch (error) {
+        return {
+          statusCode: 400,
+          headers,
+          body: JSON.stringify({ error: 'Invalid JSON body' })
+        };
+      }
+    } else {
+      return {
+        statusCode: 400,
+        headers,
+        body: JSON.stringify({ error: 'No video data provided' })
+      };
     }
+
     const jobId = uuidv4();
     setJobStatus(jobId, 'queued', 0);
     processVideoAsync(jobId, videoPath);
+    
     return {
       statusCode: 200,
+      headers,
       body: JSON.stringify({ jobId })
     };
   }
@@ -140,22 +182,43 @@ export async function handler(event, context) {
     const jobId = event.queryStringParameters?.jobId || (event.path?.split('/')?.pop());
     const job = getJob(jobId);
     if (!job) {
-      return { statusCode: 404, body: JSON.stringify({ error: 'Job not found' }) };
+      return { 
+        statusCode: 404, 
+        headers,
+        body: JSON.stringify({ error: 'Job not found' }) 
+      };
     }
     if (event.path && event.path.includes('progress')) {
-      return { statusCode: 200, body: JSON.stringify({ status: job.status, progress: job.progress, error: job.error }) };
+      return { 
+        statusCode: 200, 
+        headers,
+        body: JSON.stringify({ status: job.status, progress: job.progress, error: job.error }) 
+      };
     }
     if (event.path && event.path.includes('results')) {
       if (job.status === 'done') {
-        return { statusCode: 200, body: JSON.stringify({ result: job.result }) };
+        return { 
+          statusCode: 200, 
+          headers,
+          body: JSON.stringify({ result: job.result }) 
+        };
       } else {
-        return { statusCode: 202, body: JSON.stringify({ status: job.status, progress: job.progress }) };
+        return { 
+          statusCode: 202, 
+          headers,
+          body: JSON.stringify({ status: job.status, progress: job.progress }) 
+        };
       }
     }
-    return { statusCode: 400, body: JSON.stringify({ error: 'Invalid request' }) };
+    return { 
+      statusCode: 400, 
+      headers,
+      body: JSON.stringify({ error: 'Invalid request' }) 
+    };
   }
   return {
     statusCode: 405,
+    headers,
     body: JSON.stringify({ error: 'Method not allowed' })
   };
 }

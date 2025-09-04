@@ -10,7 +10,7 @@ function App() {
             Video Analysis App
           </h1>
           <p className="text-lg text-gray-600">
-            Analyze videos with AI and integrate with YouTube
+            Analyze videos with AI and advanced analytics
           </p>
         </header>
         
@@ -22,10 +22,10 @@ function App() {
             </p>
             <ul className="list-disc list-inside space-y-2 text-gray-700">
               <li>🎥 Video analysis and processing</li>
-              <li>🔗 YouTube API integration</li>
               <li>💳 Stripe payment processing</li>
               <li>🔐 Google OAuth authentication</li>
               <li>📊 Analytics dashboard</li>
+              <li>🤖 AI-powered insights</li>
             </ul>
           </div>
         </main>

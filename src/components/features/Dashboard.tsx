@@ -18,14 +18,12 @@ import {
   Heart,
   Upload,
   LogOut,
-  Youtube,
   ArrowUp,
   ArrowDown,
   ThumbsUp
 } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import AccountInfo from '../auth/AccountInfo';
-import { useYouTube } from '../../hooks';
 
 
 const Dashboard = () => {
@@ -33,7 +31,6 @@ const Dashboard = () => {
   const [timeRange, setTimeRange] = useState('7d');
   const { user, logout } = useAuth();
   const navigate = useNavigate();
-  const { isConnected: isYouTubeConnected, channelInfo } = useYouTube();
 
   // Sample data with more realistic numbers
   const analyticsData = [
@@ -48,9 +45,8 @@ const Dashboard = () => {
 
   // Updated platform data with more recognizable colors
   const platformData = [
-    { name: 'TikTok', value: 45, color: '#FF0050' },
-    { name: 'Instagram', value: 30, color: '#E4405F' },
-    { name: 'YouTube', value: 25, color: '#FF0000' },
+    { name: 'TikTok', value: 60, color: '#FF0050' },
+    { name: 'Instagram', value: 40, color: '#E4405F' },
   ];
 
   // Enhanced stats with more detailed information
@@ -120,30 +116,12 @@ const Dashboard = () => {
         improvements: ['Post at optimal times', 'Use more stories', 'Engage with comments faster'],
         recommendations: 'Solid performance. Try posting during peak hours (7-9 PM) and increase story frequency to boost engagement.'
       }
-    },
-    {
-      title: 'YouTube SEO Secrets for 2024',
-      platform: 'YouTube',
-      views: '650K',
-      engagement: '15.2%',
-      score: 92,
-      thumbnail: 'https://images.pexels.com/photos/3184293/pexels-photo-3184293.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&fit=crop',
-      analysis: {
-        strengths: ['Excellent thumbnail design', 'SEO-optimized title', 'High retention rate'],
-        improvements: ['Add more end screens', 'Create playlists', 'Optimize description'],
-        recommendations: 'Outstanding performance! Focus on creating series content and optimizing for suggested videos to increase views.'
-      }
     }
   ];
 
   const handleUploadVideo = () => {
     // Navigate to video analysis page
     navigate('/video-analysis');
-  };
-
-  const handleYouTubeUpload = () => {
-    // Navigate to YouTube integration page
-    navigate('/youtube');
   };
 
   const handleLogout = () => {
@@ -193,17 +171,6 @@ const Dashboard = () => {
                 <span className="truncate">{t('dashboard.uploadVideo')}</span>
               </button>
               <button 
-                onClick={handleYouTubeUpload}
-                className={`px-3 sm:px-4 py-1 sm:py-2 rounded-lg text-xs sm:text-sm transition-all flex items-center space-x-1 sm:space-x-2 min-w-0 ${
-                  isYouTubeConnected 
-                    ? 'bg-red-500 text-white hover:bg-red-600' 
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }`}
-              >
-                <Youtube className="w-4 h-4" />
-                <span className="truncate">{t('dashboard.youtube')}</span>
-              </button>
-              <button 
                 onClick={handleLogout}
                 className="bg-gray-100 text-gray-700 px-3 sm:px-4 py-1 sm:py-2 rounded-lg text-xs sm:text-sm hover:bg-gray-200 transition-colors flex items-center space-x-1 sm:space-x-2 min-w-0"
               >
@@ -216,46 +183,6 @@ const Dashboard = () => {
 
         {/* Account Information */}
         <AccountInfo accounts={user.accounts} />
-
-        {/* YouTube Connection Status */}
-        {isYouTubeConnected && channelInfo && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="mb-6"
-          >
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 bg-red-500 rounded-lg flex items-center justify-center">
-                    <Youtube className="w-6 h-6 text-white" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-gray-900">{channelInfo.title}</h3>
-                    <p className="text-sm text-gray-500">{t('dashboard.youtubeConnected')}</p>
-                  </div>
-                </div>
-                <div className="flex items-center space-x-4 text-sm">
-                  <div className="text-center">
-                    <div className="font-semibold text-gray-900">{parseInt(channelInfo.statistics.subscriberCount).toLocaleString()}</div>
-                    <div className="text-gray-500">{t('dashboard.subscribers')}</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="font-semibold text-gray-900">{parseInt(channelInfo.statistics.videoCount).toLocaleString()}</div>
-                    <div className="text-gray-500">{t('dashboard.videos')}</div>
-                  </div>
-                  <button
-                    onClick={handleYouTubeUpload}
-                    className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors"
-                  >
-                    {t('dashboard.uploadToYouTube')}
-                  </button>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        )}
 
         {/* Stats Grid */}
         <motion.div

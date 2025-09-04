@@ -1,6 +1,8 @@
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+import Stripe from 'stripe';
 
-exports.handler = async (event, context) => {
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+
+export const handler = async (event, context) => {
   if (!process.env.STRIPE_SECRET_KEY) {
     console.error('Webhook error: STRIPE_SECRET_KEY is not set');
     return { statusCode: 500, body: JSON.stringify({ error: 'Server misconfiguration' }) };

@@ -18,13 +18,4 @@ export { default as AffiliateProgram } from './features/AffiliateProgram';
 // Auth Components
 export { default as Auth } from './auth/Auth';
 export { default as AccountInfo } from './auth/AccountInfo';
-export { default as Policies } from './auth/Policies';
-
-// YouTube Components
-export { default as YouTubeIntegration } from './youtube/YouTubeIntegration';
-export { default as YouTubeCallback } from './youtube/YouTubeCallback';
-export { default as YouTubeConnect } from './youtube/YouTubeConnect';
-export { default as YouTubeUpload } from './youtube/YouTubeUpload';
-export { default as YouTubeStats } from './youtube/YouTubeStats';
-export { default as YouTubeHistory } from './youtube/YouTubeHistory';
-export { default as YouTubeQuickAccess } from './youtube/YouTubeQuickAccess'; 
+export { default as Policies } from './auth/Policies'; 

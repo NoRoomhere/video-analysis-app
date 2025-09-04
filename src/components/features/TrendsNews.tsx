@@ -32,7 +32,7 @@ const TrendsNews = () => {
   const trendingHashtags = [
     { tag: '#AIMarketing', posts: '2.4M', growth: '+156%', platform: 'TikTok' },
     { tag: '#DigitalNomad', posts: '1.8M', growth: '+89%', platform: 'Instagram' },
-    { tag: '#ContentCreator', posts: '3.2M', growth: '+67%', platform: 'YouTube' },
+          { tag: '#ContentCreator', posts: '3.2M', growth: '+67%', platform: 'Instagram' },
     { tag: '#Entrepreneur', posts: '5.1M', growth: '+45%', platform: 'TikTok' },
     { tag: '#WorkFromHome', posts: '1.2M', growth: '+123%', platform: 'Instagram' },
   ];
