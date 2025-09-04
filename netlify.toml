@@ -1,5 +1,4 @@
 [build]
-  base = "."
   publish = "dist"
   command = "npm run build"
   functions = "netlify/functions"
@@ -20,7 +19,7 @@
   to = "/.netlify/functions/stripe-create-checkout-session"
   status = 200
 
-# SPA redirect
+# SPA redirect - must be last
 [[redirects]]
   from = "/*"
   to = "/index.html"
