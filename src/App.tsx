@@ -1,36 +1,61 @@
 import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
 import './App.css';
+
+// Pages
+import { Home, Pricing, Success, Cancel } from './pages';
+import VideoAnalysis from './pages/VideoAnalysis';
+
+// Components
+import Dashboard from './components/features/Dashboard';
 
 function App() {
   return (
-    <div className="min-h-screen bg-gray-100">
-      <div className="container mx-auto px-4 py-8">
-        <header className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            Video Analysis App
-          </h1>
-          <p className="text-lg text-gray-600">
-            Analyze videos with AI and advanced analytics
-          </p>
-        </header>
+    <Router>
+      <div className="min-h-screen bg-gray-50">
+        <Routes>
+          {/* Public routes */}
+          <Route path="/" element={<Home />} />
+          <Route path="/pricing" element={<Pricing />} />
+          <Route path="/success" element={<Success />} />
+          <Route path="/cancel" element={<Cancel />} />
+          
+          {/* Protected routes */}
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/video-analysis" element={<VideoAnalysis />} />
+          
+          {/* Catch all route */}
+          <Route path="*" element={<Home />} />
+        </Routes>
         
-        <main className="max-w-4xl mx-auto">
-          <div className="bg-white rounded-lg shadow-lg p-6">
-            <h2 className="text-2xl font-semibold mb-4">Welcome!</h2>
-            <p className="text-gray-700 mb-4">
-              This is your video analysis application. Features include:
-            </p>
-            <ul className="list-disc list-inside space-y-2 text-gray-700">
-              <li>🎥 Video analysis and processing</li>
-              <li>💳 Stripe payment processing</li>
-              <li>🔐 Google OAuth authentication</li>
-              <li>📊 Analytics dashboard</li>
-              <li>🤖 AI-powered insights</li>
-            </ul>
-          </div>
-        </main>
+        {/* Toast notifications */}
+        <Toaster 
+          position="top-right"
+          toastOptions={{
+            duration: 4000,
+            style: {
+              background: '#363636',
+              color: '#fff',
+            },
+            success: {
+              duration: 3000,
+              iconTheme: {
+                primary: '#10b981',
+                secondary: '#fff',
+              },
+            },
+            error: {
+              duration: 5000,
+              iconTheme: {
+                primary: '#ef4444',
+                secondary: '#fff',
+              },
+            },
+          }}
+        />
       </div>
-    </div>
+    </Router>
   );
 }
 
