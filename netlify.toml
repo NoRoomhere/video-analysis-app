@@ -8,6 +8,8 @@
   NODE_VERSION = "18"
   NPM_FLAGS = "--legacy-peer-deps"
   NPM_CONFIG_PRODUCTION = "false"
+  # Allow Stripe price IDs in build output (they are safe to expose publicly)
+  SECRETS_SCAN_OMIT_KEYS = "VITE_STRIPE_PRICE_PRO,VITE_STRIPE_PRICE_BEGINNER,VITE_STRIPE_PRICE_MAX,VITE_STRIPE_PRICE_PRO_YEARLY,VITE_STRIPE_PRICE_MAX_YEARLY"
 
 # API redirects
 [[redirects]]

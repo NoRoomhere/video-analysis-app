@@ -16,11 +16,16 @@ export default defineConfig({
       output: {
         manualChunks: {
           vendor: ['react', 'react-dom'],
-          stripe: ['@stripe/stripe-js']
+          stripe: ['@stripe/stripe-js'],
+          ui: ['framer-motion', 'lucide-react'],
+          charts: ['recharts'],
+          utils: ['clsx', 'tailwind-merge', 'uuid']
         }
       },
       external: ['firebase']
-    }
+    },
+    // Increase chunk size warning limit
+    chunkSizeWarningLimit: 1000
   },
   define: {
     global: 'globalThis'
