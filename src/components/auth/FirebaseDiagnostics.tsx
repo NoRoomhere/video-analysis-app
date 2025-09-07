@@ -70,9 +70,19 @@ const FirebaseDiagnostics: React.FC = () => {
           if (testResponse.status === 400) {
             // This is expected - means Firebase is reachable but email is invalid
             results.authConnection = true;
+          } else if (testResponse.status === 403) {
+            results.errors.push('Firebase API key invalid or domain not authorized');
+          } else {
+            results.errors.push(`Unexpected Firebase response: ${testResponse.status}`);
           }
-        } catch (error) {
-          results.errors.push('Firebase Auth endpoint unreachable');
+        } catch (error: any) {
+          if (error.message.includes('CORS')) {
+            results.errors.push('CORS error - check Content Security Policy and authorized domains');
+          } else if (error.message.includes('Failed to fetch')) {
+            results.errors.push('Network error - check internet connection and firewall settings');
+          } else {
+            results.errors.push('Firebase Auth endpoint unreachable: ' + error.message);
+          }
         }
 
       } catch (error: any) {
@@ -121,6 +131,30 @@ const FirebaseDiagnostics: React.FC = () => {
         <p><strong>Firebase Project:</strong> {auth.app.options.projectId}</p>
         <p><strong>Auth Domain:</strong> {auth.app.options.authDomain}</p>
       </div>
+
+      {diagnostics.errors.some(error => error.includes('CORS') || error.includes('domain not authorized')) && (
+        <div className="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+          <h4 className="font-semibold text-yellow-800 mb-2">Рекомендации по исправлению:</h4>
+          <ul className="text-sm text-yellow-700 space-y-1">
+            <li>• Добавьте ваш домен в Firebase Console → Authentication → Settings → Authorized domains</li>
+            <li>• Для локальной разработки добавьте 'localhost'</li>
+            <li>• Для продакшена добавьте ваш домен (например, your-site.netlify.app)</li>
+            <li>• Проверьте Content Security Policy в файле _headers</li>
+          </ul>
+        </div>
+      )}
+
+      {diagnostics.errors.some(error => error.includes('Network error')) && (
+        <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+          <h4 className="font-semibold text-red-800 mb-2">Проблемы с сетью:</h4>
+          <ul className="text-sm text-red-700 space-y-1">
+            <li>• Проверьте подключение к интернету</li>
+            <li>• Проверьте настройки файрвола</li>
+            <li>• Попробуйте другой браузер или режим инкогнито</li>
+            <li>• Проверьте, не блокирует ли антивирус подключения</li>
+          </ul>
+        </div>
+      )}
     </div>
   );
 };
