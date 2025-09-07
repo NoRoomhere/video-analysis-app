@@ -21,7 +21,7 @@ const LandingHeader = () => {
           {/* Right side: Button */}
           <div className="flex items-center space-x-2">
             <Link
-              to="/video-analysis"
+              to="/auth"
               className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:shadow-lg transition-all"
             >
               {t('landingHeader.signUp')}

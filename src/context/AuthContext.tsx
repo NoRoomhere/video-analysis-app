@@ -68,11 +68,45 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   }, []);
 
   const register = async (email: string, password: string) => {
-    await createUserWithEmailAndPassword(auth, email, password);
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+    } catch (error: any) {
+      // Convert Firebase error codes to user-friendly messages
+      switch (error.code) {
+        case 'auth/email-already-in-use':
+          throw new Error('Этот email уже зарегистрирован');
+        case 'auth/invalid-email':
+          throw new Error('Неверный формат email');
+        case 'auth/weak-password':
+          throw new Error('Пароль должен содержать минимум 6 символов');
+        case 'auth/operation-not-allowed':
+          throw new Error('Регистрация временно недоступна');
+        default:
+          throw new Error('Ошибка регистрации: ' + error.message);
+      }
+    }
   };
 
   const login = async (email: string, password: string) => {
-    await signInWithEmailAndPassword(auth, email, password);
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+    } catch (error: any) {
+      // Convert Firebase error codes to user-friendly messages
+      switch (error.code) {
+        case 'auth/user-not-found':
+          throw new Error('Пользователь с таким email не найден');
+        case 'auth/wrong-password':
+          throw new Error('Неверный пароль');
+        case 'auth/invalid-email':
+          throw new Error('Неверный формат email');
+        case 'auth/user-disabled':
+          throw new Error('Аккаунт заблокирован');
+        case 'auth/too-many-requests':
+          throw new Error('Слишком много попыток входа. Попробуйте позже');
+        default:
+          throw new Error('Ошибка входа: ' + error.message);
+      }
+    }
   };
 
   const logout = async () => {

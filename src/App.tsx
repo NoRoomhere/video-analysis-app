@@ -9,6 +9,7 @@ import VideoAnalysis from './pages/VideoAnalysis';
 
 // Components
 import Dashboard from './components/features/Dashboard';
+import { Auth, ProtectedRoute } from './components/auth';
 
 function App() {
   return (
@@ -18,12 +19,13 @@ function App() {
           {/* Public routes */}
           <Route path="/" element={<Home />} />
           <Route path="/pricing" element={<Pricing />} />
+          <Route path="/auth" element={<Auth />} />
           <Route path="/success" element={<Success />} />
           <Route path="/cancel" element={<Cancel />} />
           
           {/* Protected routes */}
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/video-analysis" element={<VideoAnalysis />} />
+          <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+          <Route path="/video-analysis" element={<ProtectedRoute><VideoAnalysis /></ProtectedRoute>} />
           
           {/* Catch all route */}
           <Route path="*" element={<Home />} />

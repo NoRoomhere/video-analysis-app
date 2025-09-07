@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useAuth } from '../../context';
 import { Mail, Lock, User, ArrowRight, Loader2, AlertCircle, CheckCircle2 } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const Auth: React.FC = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -12,6 +12,10 @@ const Auth: React.FC = () => {
   const [success, setSuccess] = useState<string | null>(null);
   const { register, login } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  
+  // Get the intended destination from location state, default to dashboard
+  const from = location.state?.from?.pathname || '/dashboard';
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -29,7 +33,7 @@ const Auth: React.FC = () => {
       if (isLogin) {
         await login(formData.email, formData.password);
         setSuccess('Successfully logged in!');
-        setTimeout(() => navigate('/video-analysis'), 1000);
+        setTimeout(() => navigate(from, { replace: true }), 1000);
       } else {
         await register(formData.email, formData.password);
         setSuccess('Registration successful! You can now log in.');
