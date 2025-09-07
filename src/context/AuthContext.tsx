@@ -69,8 +69,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const register = async (email: string, password: string) => {
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+      console.log('Attempting to register user:', email);
+      const result = await createUserWithEmailAndPassword(auth, email, password);
+      console.log('Registration successful:', result.user.uid);
     } catch (error: any) {
+      console.error('Registration error:', error);
       // Convert Firebase error codes to user-friendly messages
       switch (error.code) {
         case 'auth/email-already-in-use':
@@ -81,6 +84,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           throw new Error('Пароль должен содержать минимум 6 символов');
         case 'auth/operation-not-allowed':
           throw new Error('Регистрация временно недоступна');
+        case 'auth/network-request-failed':
+          throw new Error('Ошибка сети. Проверьте подключение к интернету и настройки Firebase');
+        case 'auth/too-many-requests':
+          throw new Error('Слишком много попыток. Попробуйте позже');
+        case 'auth/quota-exceeded':
+          throw new Error('Превышена квота запросов. Попробуйте позже');
         default:
           throw new Error('Ошибка регистрации: ' + error.message);
       }
@@ -89,8 +98,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const login = async (email: string, password: string) => {
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      console.log('Attempting to login user:', email);
+      const result = await signInWithEmailAndPassword(auth, email, password);
+      console.log('Login successful:', result.user.uid);
     } catch (error: any) {
+      console.error('Login error:', error);
       // Convert Firebase error codes to user-friendly messages
       switch (error.code) {
         case 'auth/user-not-found':
@@ -103,6 +115,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           throw new Error('Аккаунт заблокирован');
         case 'auth/too-many-requests':
           throw new Error('Слишком много попыток входа. Попробуйте позже');
+        case 'auth/network-request-failed':
+          throw new Error('Ошибка сети. Проверьте подключение к интернету и настройки Firebase');
+        case 'auth/quota-exceeded':
+          throw new Error('Превышена квота запросов. Попробуйте позже');
         default:
           throw new Error('Ошибка входа: ' + error.message);
       }

@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useAuth } from '../../context';
-import { Mail, Lock, User, ArrowRight, Loader2, AlertCircle, CheckCircle2 } from 'lucide-react';
+import { Mail, Lock, User, ArrowRight, Loader2, AlertCircle, CheckCircle2, Settings } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import FirebaseDiagnostics from './FirebaseDiagnostics';
 
 const Auth: React.FC = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -10,6 +11,7 @@ const Auth: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+  const [showDiagnostics, setShowDiagnostics] = useState(false);
   const { register, login } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -160,9 +162,28 @@ const Auth: React.FC = () => {
                 {isLogin ? 'Sign up' : 'Sign in'}
               </button>
             </p>
+            
+            <button
+              onClick={() => setShowDiagnostics(!showDiagnostics)}
+              className="mt-4 flex items-center space-x-2 text-gray-500 hover:text-gray-700 transition-colors mx-auto"
+            >
+              <Settings className="w-4 h-4" />
+              <span className="text-sm">Диагностика Firebase</span>
+            </button>
           </motion.div>
         </div>
       </motion.div>
+      
+      {showDiagnostics && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }}
+          className="mt-8"
+        >
+          <FirebaseDiagnostics />
+        </motion.div>
+      )}
     </div>
   );
 };
